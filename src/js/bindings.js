@@ -123,7 +123,8 @@ function DataBinder(object,name) {
         //          $bound.val( new_val );
         //        }
       } else {
-        $bound.html( new_val );
+        // $bound.html( new_val );
+        $bound[0].textContent = new_val;
       }
     });
   });

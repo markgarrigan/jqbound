@@ -17,6 +17,14 @@ $.extend(app,{
     };
     return $d.promise();
   },
+  initModels : function(options) {
+    var models = String(options.models).split(',');
+    models.forEach(function (name, index, array) {
+      $('[data-' + name + ']').each(function() {
+        new Model($(this),name);
+      });
+    });
+  },
   wait : function(time) {
     return $.Deferred(function(dfd) {
       setTimeout(dfd.resolve, time);

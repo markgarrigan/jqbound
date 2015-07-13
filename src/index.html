@@ -12,6 +12,11 @@
 <p><a href="#" data-on-click="saySomething">Say Hello</a></p>
 <p><a href="#" data-on-click="saySomething,doSomething" data-speech="Something else.">Say something else.</a></p>
 
+<p data-on-load="initModels" data-models="contact">
+  <label for="first_name" class="required">First Name</label>
+  <input name="first_name" type="text" data-contact="fname">
+</p>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="/js/jqbound.js"></script>
 </body>
