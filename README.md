@@ -25,7 +25,7 @@ Serve up the dist directory however you'd like.
 
 ```
 git clone
-cd /path/to/ediblecontent
+cd /path/to/mockingj
 npm install
 gulp
 ```
