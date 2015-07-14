@@ -107,46 +107,50 @@ $(function(){
 
 });
 
-function DataBinder(object,name) {
+function DataBinder(element) {
   var pubSub = jQuery({});
-  var message = object.data(name) + ":change";
-  jQuery( document ).on( "change keyup", "[data-" + name + "]", function( evt ) {
-    var $input = jQuery( this );
-    pubSub.trigger( message, [ $input.data(name), $input.val() ] );
+  var message = element.data('value') + ":change";
+  $('body').on('change keyup', '[data-value]', function(e) {
+    var $this = $(this);
+    pubSub.trigger(message, [$this.data('value'), $this.val()]);
   });
-  pubSub.on( message, function( evt, prop_name, new_val ) {
-    jQuery( "[data-" + name + "=" + prop_name + "]" ).each( function() {
-      var $bound = jQuery( this );
-
-      if ( $bound.is("input, textarea, select") ) {
-        //        if ($bound.not('input[type=radio]')) {
-        //          $bound.val( new_val );
-        //        }
-      } else {
-        // $bound.html( new_val );
-        $bound[0].textContent = new_val;
-      }
+  pubSub.on(message, function(e, property, new_val) {
+    $('[data-value="' + property + '"]').each(function() {
+      $(this).val(new_val);
+    });
+    $('[data-text="' + property + '"]').each(function() {
+      $(this)[0].textContent = new_val;
+    });
+    $('[data-html="' + property + '"]').each(function() {
+      $(this).html(new_val);
     });
   });
   return pubSub;
 }
 
-function Model(element,name) {
-  var binder = new DataBinder(element,name),
-  model = {
-    attributes: {},
-    set: function( attr_name, val ) {
-      this.attributes[ attr_name ] = val;
-      binder.trigger( name + ":change", [ attr_name, val, this ] );
-    },
-    get: function( attr_name ) {
-      return this.attributes[ attr_name ];
-    },
-    _binder: binder
-  };
-  binder.on( name + ":change", function( evt, attr_name, new_val, initiator ) {
+function Model(element) {
+  var binder = new DataBinder(element),
+      model = {
+        set: function(obj,path,value) {
+          var lastKeyIndex = path.length-1;
+          for (var i = 0; i < lastKeyIndex; ++ i) {
+            var key = path[i];
+            if (!(key in obj)) {
+              obj[key] = {};
+            }
+            obj = obj[key];
+          }
+          obj[path[lastKeyIndex]] = value;
+          binder.trigger(path + ":change", [path, value, this]);
+        },
+        _binder: binder
+      };
+  if (element.val()) {
+    model.set(app.models, path.split('.'), element.val());
+  }
+  binder.on( element.data('value') + ":change", function( evt, path, new_val, initiator ) {
     if ( initiator !== model ) {
-      model.set( attr_name, new_val );
+      model.set(app.models, path.split('.'), new_val);
     }
   });
   return model;
