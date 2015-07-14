@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge, chrome=1" />
+<title>jqBound</title>
+<link rel="stylesheet" href="/css/jqbound.css" />
+</head>
+<body>
+
+<h1>jqBound</h1>
+<p><a href="#" data-on-click="saySomething">Say Hello</a></p>
+<p><a href="#" data-on-click="saySomething,doSomething" data-speech="Something else.">Say something else.</a></p>
+<p><a href="#" data-on-click="sayName" data-name="contact.name.first">Say Name</a></p>
+
+<p data-on-load="initModels" data-models="contact">
+  <label for="first_name">First Name</label>
+  <input name="first_name" id="first_name" type="text" data-value="contact.name.first">
+</p>
+
+<h3 data-text="contact.name.first"></h3>
+
+<input name="first_name" id="first_name" type="text" data-value="contact.name.first">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="/js/jqbound.js"></script>
+</body>
+</html>
